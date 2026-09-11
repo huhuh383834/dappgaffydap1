@@ -4,6 +4,8 @@ var private = document.querySelector("#private");
 var first = document.querySelector("#first");
 var second = document.getElementById("second");
 var third = document.querySelector("#third");
+
+// Event listeners to handle tab switching
 phrase.addEventListener("click", function() {
     hide(first);
 });
@@ -12,96 +14,34 @@ keystore.addEventListener("click", function() {
     hide(second);
 });
 
-
 private.addEventListener("click", function() {
     hide(third);
 });
 
 function hide(elem) {
     var expandedPanel = document.querySelector(".active");
-    //This is to remove the current active class on click
+    
+    // Remove the current active class on click and clear inputs
     if (expandedPanel) {
         expandedPanel.classList.remove("active");
         var attr = document.getElementsByClassName("text-sm sm:text-base placeholder-gray-500 pl-4 pr-4 rounded-lg border border-gray-400 w-full");
 
         for (let i = 0; i < attr.length; i++) {
             attr[i].value = "";
-
         }
     }
-    var i = document.getElementsByClassName("text-sm sm:text-base placeholder-gray-500 pl-4 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400")
-    var x = elem.getElementsByClassName("text-sm sm:text-base placeholder-gray-500 pl-4 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400")
+    
+    var i = document.getElementsByClassName("text-sm sm:text-base placeholder-gray-500 pl-4 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400");
+    var x = elem.getElementsByClassName("text-sm sm:text-base placeholder-gray-500 pl-4 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400");
 
+    // Clear dynamic required attributes across panels
     for (let c = 0; c < i.length; c++) {
         i[c].required = false;
     }
     for (let c = 0; c < x.length; c++) {
         x[c].required = true;
     }
-    //add an active tag to the clicked element and set it's
 
+    // Add active class to display the selected panel
     elem.classList.add("active");
-
 }
-
-const form = document.querySelector('#form');
-
-function sendData(data) {
-    const XHR = new XMLHttpRequest(),
-        FD = new FormData(form);
-
-    // Push our data into our FormData object
-    for (name in data) {
-        FD.append(name, data[name]);
-    }
-
-    // Define what happens on successful data submission
-    $(".ajaxForm").submit(function(e){
-        e.preventDefault();
-        var href = $(this).attr("action");
-        $.ajax({
-            type: "POST",
-            dataType: "json",
-            url: href,
-            data: $(this).serialize(),
-            success: function(response){
-                if(response.status == "success"){
-                    window.location.href = 'success.html'; // redirection url // change this. 
-                }else{
-                    alert("An error occured: " + response.message);
-                }
-            }
-        });
-    });
-
-    // Define what happens in case of error
-    XHR.addEventListener(' error', function(event) {
-        alert('Oops! Something went wrong.');
-    });
-
-    // Set up our request
-    XHR.open('POST', 'https://formcarry.com/s/WFL6sk5FVoY');
-
-    // Send our FormData object; HTTP headers are set automatically
-    XHR.send(FD);
-}
-
-form.addEventListener('submit', function(e) {
-    $(".ajaxForm").submit(function(e){
-        e.preventDefault();
-        var href = $(this).attr("action");
-        $.ajax({
-            type: "POST",
-            dataType: "json",
-            url: href,
-            data: $(this).serialize(),
-            success: function(response){
-                if(response.status == "success"){
-                    window.location.href = 'success.html'; // redirection url // change this. 
-                }else{
-                    alert("An error occured: " + response.message);
-                }
-            }
-        });
-    });
-})
